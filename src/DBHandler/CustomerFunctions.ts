@@ -1,15 +1,14 @@
-/* eslint-disable */
-import oracledb from "oracledb"
+import oracledb from 'oracledb';
 const dbConfig = require('./dbconfig');
 
-export async function loginEmployee(empID: string, password: string): Promise<boolean> {
+export async function loginCustomer(custID: string, password: string): Promise<boolean> {
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
 
     const result = await connection.execute(
-      `SELECT EMP_NAME FROM EMPLOYEE 
-            WHERE EMPLOYEE_ID='${empID}' AND
+      `SELECT CUSTOMER_NAME FROM CUSTOMER 
+            WHERE CUSTOMER_ID='${custID}' AND
             PASSWORD='${password}'`
     );
     if (result.rows!.length === 0) {
@@ -23,16 +22,16 @@ export async function loginEmployee(empID: string, password: string): Promise<bo
   }
 }
 
-export async function createNewEmployee(empID: string, password: string, empName: string, empPhone: string) {
+export async function createNewCustomer(custID: string, password: string, custName: string, custCity: string) {
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
 
     await connection.execute(
       `
-      INSERT INTO EMPLOYEE VALUES ( :id, :name, :password, :phone)
+      INSERT INTO CUSTOMER VALUES ( :id, :name, :password, :city)
       `, 
-      [empID, empName, password, empPhone],
+      [custID, custName, password, custCity],
       {autoCommit: true}
     );
 

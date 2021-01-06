@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable promise/always-return */
 import React, { useState } from 'react';
-import { authenticateEmployee } from '../../DBHandler/EmployeeFunctions';
+import { loginEmployee } from '../../DBHandler/EmployeeFunctions';
 
 const EmployeeLogin: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +24,7 @@ const EmployeeLogin: React.FC = () => {
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    authenticateEmployee(formData.empID.trim(), formData.password.trim())
+    loginEmployee(formData.empID.trim(), formData.password.trim())
       .then((result) => {
         console.log(formData.empID.trim(), formData.password.trim());
         console.log(`result = ${result}`);
@@ -64,8 +62,7 @@ const EmployeeLogin: React.FC = () => {
             />
           </label>
           <button type="submit" onClick={(e) => onSubmit(e)}>
-            {' '}
-            Login{' '}
+            Login
           </button>
         </form>
         {buttonPressed ? (
