@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState } from 'react';
 import { createNewCustomer } from "../../DBHandler/CustomerFunctions"
 
@@ -68,7 +67,8 @@ const RegisterCustomer: React.FC = () => {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
+      setcustCreated(true);
       setCreationError(true);
     })
   }
@@ -117,6 +117,7 @@ const RegisterCustomer: React.FC = () => {
             onChange={(e) => handleChange(e, 'city')}
           />
         </label>
+        <br/>
         <button type="submit" onClick={(e) => createCustomer(e)}>
           Create New Customer
         </button>

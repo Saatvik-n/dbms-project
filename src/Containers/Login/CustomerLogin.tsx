@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useHistory} from "react-router-dom"
 import { loginCustomer } from '../../DBHandler/CustomerFunctions';
 
 const CustomerLogin: React.FC = () => {
@@ -8,6 +9,8 @@ const CustomerLogin: React.FC = () => {
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [buttonPressed, setButtonPressed] = useState(false);
+
+  const history = useHistory();
 
   const oncustIDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -28,6 +31,10 @@ const CustomerLogin: React.FC = () => {
       .then((result) => {
         console.log(formData.custID.trim(), formData.password.trim());
         console.log(`result = ${result}`);
+        if (result === true) {
+          history.push(`/custhome/${formData.custID}`)
+          return;
+        }
         setLoggedIn(result);
         setButtonPressed(true);
       })
@@ -51,6 +58,7 @@ const CustomerLogin: React.FC = () => {
             onChange={oncustIDChange}
           />
         </label>
+        <br/>
         <label htmlFor="customer-pwd">
           Password
           <input
@@ -60,6 +68,7 @@ const CustomerLogin: React.FC = () => {
             onChange={onPasswordChange}
           />
         </label>
+        <br/>
         <button type="submit" onClick={(e) => onSubmit(e)}>
           Login
         </button>

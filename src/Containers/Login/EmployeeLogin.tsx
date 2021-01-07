@@ -52,6 +52,7 @@ const EmployeeLogin: React.FC = () => {
               onChange={onEmpIDChange}
             />
           </label>
+          <br/>
           <label htmlFor="employee-pwd">
             Password
             <input
@@ -61,6 +62,7 @@ const EmployeeLogin: React.FC = () => {
               onChange={onPasswordChange}
             />
           </label>
+          <br/>
           <button type="submit" onClick={(e) => onSubmit(e)}>
             Login
           </button>

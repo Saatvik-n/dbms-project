@@ -138,6 +138,7 @@ const RegisterEmployee: React.FC = () => {
               onChange={(e) => handleChange(e, 'authPassword')}
             />
           </label>
+          <br/>
           <button type="submit" 
           onClick={(e) => createEmployee(e)} >
             Create New Employee
