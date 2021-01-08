@@ -14,6 +14,9 @@ import AddMeters from "./Containers/Customer/Meters/AddMeters"
 import Usage from "./Containers/Customer/Meters/Usage"
 import SetMeters from "./Containers/Customer/Meters/SetMeters"
 
+import Bills from "./Containers/Customer/Bills/Bills"
+import BillStatus from "./Containers/Customer/Bills/BillStatus"
+
 import CustomerHome from "./Containers/Customer/CustomerHome";
 
 
@@ -31,6 +34,8 @@ export default function App() {
           <Route path="/addmeters/:custid" exact component={AddMeters} />
           <Route path="/usage/:custid" exact component={Usage} />
           <Route path="/setmeters/:custid" exact component={SetMeters} />
+          <Route path="/bills/:custid" exact component={Bills}  />
+          <Route path="/billstatus/:custid" exact component={BillStatus} />
           <Route path="/" exact component={Homepage} />
         </Switch>
       </Router>

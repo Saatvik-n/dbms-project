@@ -50,7 +50,8 @@ const CustomerHome: React.FC = () => {
             <Meters customerID={customerID} />
             <h3> <Link to={`/addmeters/${customerID}`}> Add meters </Link> </h3>
             <h3> <Link to={`/usage/${customerID}`}> See and Update Usage </Link> </h3>
-            <h3> Pay bill </h3>
+            <h3> <Link to={`/bills/${customerID}`}> Generate and pay bill </Link> </h3>
+            <h3> <Link to={`/billstatus/${customerID}`}> See approved/pending bills </Link> </h3>
 
         </div>
     )

@@ -2,3 +2,25 @@
 # yarn lockfile v1
 
 
+"@types/node@*":
+  version "14.14.20"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.20.tgz#f7974863edd21d1f8a494a73e8e2b3658615c340"
+  integrity sha512-Y93R97Ouif9JEOWPIUyU+eyIdyRqQR0I8Ez1dzku4hDx34NWh4HbtIc3WNzwB1Y9ULvNGeu5B8h8bVL5cAk4/A==
+
+"@types/oracledb@^5.0.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@types/oracledb/-/oracledb-5.1.0.tgz#4d0356ff88bfaa56b7969c8c43d66794cf1af069"
+  integrity sha512-t5TyGUDTBp6hEGrtFHg9oWfvrXOvDYinzgt/GfhbOffu3Fz+zd45+D/AZj0hJfKcs50xfkz9kNzVTMaHBBNxmQ==
+  dependencies:
+    "@types/node" "*"
+    dotenv "^8.2.0"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
+oracledb@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-5.1.0.tgz#2139469d7318a48f3fed6c00f0d98e5049bb769f"
+  integrity sha512-/IpzG729lFj8NBsA0xaOijdf6ZO3VuJbebma/hSf+VUZoIyzI/mCzBX047ramb/W8yJ1SV/HdWgs+XEczbqsXg==

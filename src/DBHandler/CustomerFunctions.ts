@@ -1,6 +1,7 @@
 import oracledb from 'oracledb';
 const dbConfig = require('./dbconfig');
 import {CURRENT_MONTH, CURRENT_YEAR} from "../CurrentDate"
+import {uuid} from "uuidv4"
 
 const DATE = `28-${CURRENT_MONTH}-${CURRENT_YEAR}`;
 
@@ -15,6 +16,7 @@ export async function loginCustomer(custID: string, password: string): Promise<b
             PASSWORD='${password}'`
     );
     if (result.rows!.length === 0) {
+      connection.close();
       return false;
     }
     connection.close();
@@ -100,7 +102,7 @@ export async function addMeter(custID:string, meterID:string, meterName:string, 
       [meterID, meterName, +meterRate.toFixed(2), custID],
       {autoCommit: true}
     )
-
+    connection.close();
     return true;
   } catch (error) {
     connection?.close()
@@ -109,6 +111,7 @@ export async function addMeter(custID:string, meterID:string, meterName:string, 
   }
 }
 
+//this gets the metername, units, and price for this month
 export async function getCustomerUsage(custID:string): Promise<string[]> {
   let connection;
   try {
@@ -162,7 +165,7 @@ export async function updateUsage(usageArray:string[], meterArray:string[]):Prom
     return false;
   }
 }
-//This sets the usage for all meters in the current month to 0
+//This sets the usage for all meters in the current month to 0, only for use in this file
 async function setZeroUsage(meterArray:string[]):Promise<void> {
   let connection;
   try {
@@ -188,5 +191,72 @@ async function setZeroUsage(meterArray:string[]):Promise<void> {
   } catch (error) {
     connection?.close();
     return;
+  }
+}
+
+//this is to insert a record into the BILL table once user has paid the bill with the transaction ID 
+//bill no will be generated randomly now, bill date will be taken as the current date
+export async function insertBill(transID:string, custID:string, total:number):Promise<boolean> {
+  let connection;
+  let billNumber = uuid().substring(0, 15);
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    await connection.execute(
+      `
+      INSERT INTO BILL (BILLNO, TOTAL, TRANSACTIONID, CUSTID, BILL_DATE) VALUES 
+      (:bn, :tot, :tid, :cid, :bd)
+      `, 
+      [billNumber, total, transID, custID, DATE],
+      {autoCommit: true}
+    )
+    connection.close();
+    return true;
+  } catch (error) {
+    connection?.close();
+    console.error(error);
+    return false;
+  }
+}
+
+export async function checkHasPaid(custID:string): Promise<boolean> {
+let connection;  
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+      `
+      SELECT BILLNO FROM BILL WHERE CUSTID='${custID}'
+      AND BILL_DATE='${DATE}'
+      `
+    )
+    //this means that there are no bills paid for this month
+    if (result.rows!.length === 0) {
+      connection.close();
+      return false;
+    }
+    connection.close();
+    return true;
+  }
+  catch(err) {
+    console.error(err);
+    connection?.close();
+    return false;
+  }
+}
+
+export async function getCustomerBills(custID:string):Promise<string[]> {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+      `
+      SELECT * FROM BILL WHERE CUSTID='${custID}'
+      `
+    )
+    connection.close();
+    return result.rows as string[]
+
+  } catch (error) {
+    connection?.close();
+    return ["error"];
   }
 }
