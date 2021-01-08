@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { createNewCustomer } from "../../DBHandler/CustomerFunctions"
+import { createNewCustomer } from '../../DBHandler/CustomerFunctions';
+import { Row, Col, Form, Container, Button } from 'react-bootstrap';
 
 interface fdata {
   [index: string]: string;
@@ -19,7 +20,7 @@ const RegisterCustomer: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: any,
     toChange: string
   ) => {
     let newFormData = {
@@ -47,7 +48,9 @@ const RegisterCustomer: React.FC = () => {
     }
   };
 
-  const createCustomer = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const createCustomer = (
+    event: any
+  ) => {
     event.preventDefault();
     for (const prop in formData) {
       if (formData[prop].trim() === '') {
@@ -56,80 +59,81 @@ const RegisterCustomer: React.FC = () => {
       }
     }
     setShowModal(false);
-    createNewCustomer(formData.custID, formData.password, formData.name, formData.city)
-    .then(result => {
-      setcustCreated(true);
-      if (result === false) {
+    createNewCustomer(
+      formData.custID,
+      formData.password,
+      formData.name,
+      formData.city
+    )
+      .then((result) => {
+        setcustCreated(true);
+        if (result === false) {
+          setCreationError(true);
+        } else {
+          setCreationError(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setcustCreated(true);
         setCreationError(true);
-      }
-      else {
-        setCreationError(false);
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      setcustCreated(true);
-      setCreationError(true);
-    })
-  }
+      });
+  };
 
   return (
-    <div>
-      <h1>Register a new customer</h1>
-      <h3>{showModal ? 'Every input field should be filled' : null}</h3>
-      <form>
-        <label htmlFor="customer-id">
-          Customer ID
-          <input
-            type="text"
-            name="emp-login"
+    <Container fluid>
+      <h1 style={{textAlign: "center"}} >Register a new customer</h1>
+      <h4 style={{color: "red", margin: "15px 0px"}} >{showModal ? 'Every input field should be filled' : null}</h4>
+      <Row>
+        <Col md={6}>
+          <Form>
+            <Form.Group controlId="cust-id">
+            <Form.Label>
+              Customer ID
+            </Form.Label>
+            <Form.Control type="text" placeholder="Customer ID"
             value={formData.custID}
-            onChange={(e) => handleChange(e, 'custID')}
-          />
-        </label>
-        <br />
-        <label htmlFor="customer-pwd">
-          Password
-          <input
-            type="password"
-            name="emp-login"
+            onChange={(e) => handleChange(e, 'custID')} />
+            </Form.Group>
+            <Form.Group controlId="cust-pwd">
+            <Form.Label>
+              Password
+            </Form.Label>
+            <Form.Control type="password"
             value={formData.password}
-            onChange={(e) => handleChange(e, 'password')}
-          />
-        </label>
-        <br />
-        <label htmlFor="customer-name">
-          Name
-          <input
-            type="text"
-            name="emp-login"
+            onChange={(e) => handleChange(e, 'password')} />
+            </Form.Group>
+            <Form.Group controlId="cust-name">
+            <Form.Label>
+              Name
+            </Form.Label>
+            <Form.Control type="text" placeholder="Your Name"
             value={formData.name}
-            onChange={(e) => handleChange(e, 'name')}
-          />
-        </label>
-        <br />
-        <label htmlFor="customer-city">
-          City
-          <input
-            type="text"
-            name="emp-login"
+            onChange={(e) => handleChange(e, 'name')} />
+            </Form.Group>
+            <Form.Group controlId="cust-id">
+            <Form.Label>
+              City
+            </Form.Label>
+            <Form.Control type="text" placeholder="City"
             value={formData.city}
-            onChange={(e) => handleChange(e, 'city')}
-          />
-        </label>
-        <br/>
-        <button type="submit" onClick={(e) => createCustomer(e)}>
-          Create New Customer
-        </button>
-      </form>
-      <h3>
+            onChange={(e) => handleChange(e, 'city')} />
+            </Form.Group>
+            <Button variant="success"
+            onClick={(e) => createCustomer(e)} >
+              Create New Customer
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+      <h4 style={{margin: "15px 0px"}} >
         {custCreated
           ? creationError
             ? 'Customer with this ID is already created'
             : 'Customer Created'
           : null}
-      </h3>
-    </div>
+      </h4>
+    </Container>
   );
 };
 

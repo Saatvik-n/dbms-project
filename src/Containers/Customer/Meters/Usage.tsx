@@ -1,7 +1,8 @@
 import React from "react";
 import MeterUsage from "../../../Components/Customer/MeterUsage"
-import {useLocation, Link} from "react-router-dom"
+import {useLocation, useHistory} from "react-router-dom"
 import {CURRENT_MONTH, CURRENT_YEAR} from "../../../CurrentDate"
+import {Button, Col, Row} from "react-bootstrap"
 
 const getCustomerID = (url: string):string => {
     let re = new RegExp('/usage/', 'g');
@@ -12,12 +13,18 @@ const getCustomerID = (url: string):string => {
 
 const Usage = () => {
     const location = useLocation();
+    const history = useHistory();
     return (
         <div>
-            <h2>Usage for: {CURRENT_MONTH} {CURRENT_YEAR} </h2>
+            <h2 style={{margin: "15px 0px", textAlign: "center"}} >Usage for: {CURRENT_MONTH} {CURRENT_YEAR} </h2>
             <MeterUsage custID={getCustomerID(location.pathname)}  /> 
             {/* This is just a static component for display*/}
-            <h2> <Link to={`/setmeters/${getCustomerID(location.pathname)}`}> Set or update meter usage </Link> </h2>
+            <Row style={{marginTop: "15px"}} >
+                <Col md={4} className="mx-auto">
+                    <Button block 
+                    onClick={() => history.push(`/setmeters/${getCustomerID(location.pathname)}`)} > Set Meter Usage </Button>
+                </Col>
+            </Row>
         </div>
     )
 }

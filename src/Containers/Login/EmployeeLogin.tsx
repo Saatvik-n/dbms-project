@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { loginEmployee } from '../../DBHandler/EmployeeFunctions';
 
 const EmployeeLogin: React.FC = () => {
@@ -22,7 +23,7 @@ const EmployeeLogin: React.FC = () => {
     });
   };
 
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     loginEmployee(formData.empID.trim(), formData.password.trim())
       .then((result) => {
@@ -40,37 +41,39 @@ const EmployeeLogin: React.FC = () => {
 
   return (
     <>
-      <div>
-        <h1>Employee Login</h1>
-        <form>
-          <label htmlFor="employee-id">
-            Employee ID
-            <input
-              type="text"
-              name="emp-login"
-              value={formData.empID}
+    <Container fluid>
+      <h1>Employee Login</h1>
+      <Row>
+        <Col md={6}>
+          <Form>
+            <Form.Group controlId="customer-id">
+              <Form.Label>Employee ID</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Employee ID"
+                value={formData.empID}
               onChange={onEmpIDChange}
-            />
-          </label>
-          <br/>
-          <label htmlFor="employee-pwd">
-            Password
-            <input
-              type="password"
-              name="emp-login"
-              value={formData.password}
+              />
+            </Form.Group>
+            <Form.Group controlId="customer-pwd">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={formData.password}
               onChange={onPasswordChange}
-            />
-          </label>
-          <br/>
-          <button type="submit" onClick={(e) => onSubmit(e)}>
-            Login
-          </button>
-        </form>
-        {buttonPressed ? (
-          <h2>{loggedIn ? 'Logged In successfully' : 'Login failed'}</h2>
-        ) : null}
-      </div>
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit"
+            onClick={(e) => onSubmit(e)} >
+              Login
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+      {buttonPressed ? (
+        <h2>{loggedIn ? 'Logged In successfully' : 'Login failed'}</h2>
+      ) : null}
+      </Container>
     </>
   );
 };

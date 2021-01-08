@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Navbar from './Components/Navbar/Navbar';
+import Navigation from './Components/Navbar/Navigation';
 
 import Homepage from './Components/Homepage/Homepage';
 
@@ -19,12 +19,14 @@ import BillStatus from "./Containers/Customer/Bills/BillStatus"
 
 import CustomerHome from "./Containers/Customer/CustomerHome";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function App() {
   return (
     <>
       <Router>
-      <Navbar />
+      <Navigation />
         <Switch>
           <Route path="/emplogin" exact component={EmployeeLogin} />
           <Route path="/custlogin" exact component={CustomerLogin} />

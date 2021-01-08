@@ -3,6 +3,7 @@ import {CURRENT_MONTH, CURRENT_YEAR} from "../../../CurrentDate"
 import MeterUsage from "../../../Components/Customer/MeterUsage"
 import PayBill from "../../../Components/Customer/PayBill"
 import {useLocation} from "react-router-dom"
+import {Button, Row, Col} from "react-bootstrap"
 import {insertBill, checkHasPaid} from "../../../DBHandler/CustomerFunctions"
 
 const getCustomerID = (url: string):string => {
@@ -52,12 +53,14 @@ const Bills = () => {
 
   const PayBillComponent: React.FC = () => (
     <>
-      <h3 style={{
-        color:"blue", 
-        textDecoration: "underline", 
-        cursor: "pointer"
-      }}
-      onClick={(e) => {setShowPay(true); setShowUsage(true)}} >Pay bill for {CURRENT_MONTH} {CURRENT_YEAR} </h3>
+    <Row>
+      <Col md={6} className="mx-auto">
+        <Button block 
+        onClick={() => {setShowPay(true); setShowUsage(true)}}>
+          Pay bill for {CURRENT_MONTH} {CURRENT_YEAR}
+        </Button>
+      </Col>
+    </Row>
       {showPay ? (
         <PayBill total={total}
         onTransChange={changeTransHandler}
@@ -81,15 +84,18 @@ const Bills = () => {
 
   return (
     <div>
-      <h2>Generate and pay bills</h2>
-      <h3>Current billing cycle is: {CURRENT_MONTH} {CURRENT_YEAR} </h3>
+      <h2 style={{margin: "10px 0px", textAlign: "center"}} >Generate and pay bills</h2>
+      <h3 style={{margin: "10px 0px", textAlign: "center"}} >Current billing cycle is: {CURRENT_MONTH} {CURRENT_YEAR} </h3>
       <hr/>
-      <h3 style={{
-        color:"blue", 
-        textDecoration: (showUsage ? "none" : "underline"), 
-        cursor: "pointer"
-      }}
-      onClick={(e) => setShowUsage(true)} >See Bill for {CURRENT_MONTH} {CURRENT_YEAR}  </h3>
+      <Row>
+      <Col md={6} className="mx-auto">
+        <Button block 
+        onClick={() => {setShowPay(true); setShowUsage(true)}}
+        style={{marginBottom:"15px"}} >
+          See bill for {CURRENT_MONTH} {CURRENT_YEAR}
+        </Button>
+      </Col>
+    </Row>
       {showUsage ? (
         <MeterUsage custID={getCustomerID(location.pathname)}
         generateTotal={true}
@@ -98,7 +104,7 @@ const Bills = () => {
       {/* Make a component to show the current usage. Put a button, 
       Warn the user usage cannot be changed for this month  */}
       {blockPay ? (
-        <h3>You have already paid the bill for this month</h3>
+        <h3 style={{marginTop:"10px", textAlign:"center"}} >You have already paid the bill for this month</h3>
       )
         :
         PayBillComponent

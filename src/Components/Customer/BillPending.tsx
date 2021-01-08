@@ -1,10 +1,17 @@
 import React from "react"
+import {Table} from "react-bootstrap"
 
 const BillPending = (props:any) => {
 
+  if (props.bills.length === 0) {
+    return (
+      <h3 style={{textAlign: "center"}} > Nothing to display </h3>
+    )
+  }
+
   return (
     <div>
-      <table>
+      <Table>
         <thead>
           <tr>
             <td>Bill No</td>
@@ -33,7 +40,7 @@ const BillPending = (props:any) => {
             })
           }
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {useLocation} from "react-router-dom"
+import { useLocation } from 'react-router-dom';
 import { addMeter } from '../../../DBHandler/CustomerFunctions';
+import { Button, Row, Col, Form, Container } from 'react-bootstrap';
 
 interface fdata {
   [index: string]: string;
@@ -12,12 +13,12 @@ let initialObject: fdata = {
   meterRate: '',
 };
 
-const getCustomerID = (url: string):string => {
-    let re = new RegExp('/addmeters/', 'g');
-    let custID = url.replace(re, '').trim();
+const getCustomerID = (url: string): string => {
+  let re = new RegExp('/addmeters/', 'g');
+  let custID = url.replace(re, '').trim();
 
-    return custID;
-}
+  return custID;
+};
 
 const AddMeters = () => {
   const [formData, setFormData] = useState(initialObject);
@@ -27,7 +28,7 @@ const AddMeters = () => {
   const currentURL = useLocation();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: any,
     toChange: string
   ) => {
     let newFormData = { ...formData };
@@ -49,9 +50,7 @@ const AddMeters = () => {
     }
   };
 
-  const addGivenMeter = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const addGivenMeter = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     for (const prop in formData) {
       if (formData[prop].trim() === '') {
@@ -82,55 +81,60 @@ const AddMeters = () => {
   };
 
   return (
-    <div>
-      <h2>Add meters</h2>
-      <h2>{showModal ? 'Every input field must be filled' : null}</h2>
-      <form>
-        <label htmlFor="meter-id">
-          Enter Meter ID
-          <input
-            type="text"
-            name="meter-add"
-            id=""
-            value={formData.meterID}
-            onChange={(e) => handleChange(e, 'id')}
-          />
-        </label>
-        <br />
-        <label htmlFor="meter-name">
-          Enter Meter Name
-          <input
-            type="text"
-            name="meter-add"
-            id=""
-            value={formData.meterName}
-            onChange={(e) => handleChange(e, 'name')}
-          />
-        </label>
-        <br />
-        <label htmlFor="meter-rate">
-          Enter Meter Rate
-          <input
-            type="number"
-            name="meter-add"
-            id=""
-            value={formData.meterRate}
-            onChange={(e) => handleChange(e, 'rate')}
-          />
-        </label>
-        <br />
-        <button type="submit" onClick={(e) => addGivenMeter(e)}>
-          Add meter
-        </button>
-      </form>
-      <h3>
+    <Container fluid>
+      <h2 style={{ margin: '15px 0px', textAlign: 'center' }}>
+        Add new Meters
+      </h2>
+      <h4 style={{ color: 'red' }}>
+        {showModal ? 'Every input field must be filled' : null}
+      </h4>
+      <Row>
+        <Col md={6}>
+          <Form>
+            <Form.Group controlId="meter-id">
+              <Form.Label> New Meter ID </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="meter ID"
+                value={formData.meterID}
+                onChange={(e) => handleChange(e, 'id')}
+              />
+            </Form.Group>
+            <Form.Group controlId="meter-name">
+              <Form.Label> New Meter Name </Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.meterName}
+                onChange={(e) => handleChange(e, 'name')}
+              />
+            </Form.Group>
+            <Form.Group controlId="meter-rate">
+              <Form.Label> New Meter Rate </Form.Label>
+              <Form.Control
+                type="number"
+                value={formData.meterRate}
+                onChange={(e) => handleChange(e, 'rate')}
+              />
+            </Form.Group>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={(e) => addGivenMeter(e)}
+            >
+              Add meter
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+      <form></form>
+      <h3 style={{marginTop: "10px"}} >
         {addComplete
           ? isError
             ? 'Meter with this ID is already created'
             : 'Meter created'
           : null}
       </h3>
-    </div>
+    </Container>
   );
 };
 
