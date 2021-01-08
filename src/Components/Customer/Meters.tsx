@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCustomerMeters } from '../../DBHandler/CustomerFunctions';
 
 const Meters = (props: any) => {
-  const [customerMeters, setCustomerMeters] = useState<any[]>([]);
+  const [customerMeters, setCustomerMeters] = useState<string[]>([]);
 
   useEffect(() => {
     getCustomerMeters(props.customerID)
@@ -18,11 +18,14 @@ const Meters = (props: any) => {
   return (
     <div>
       <table>
-        <tr>
+        <thead>
+          <tr>
           <th>Meter ID</th>
           <th>Meter Name</th>
           <th>Meter Rate</th>
-        </tr>
+          </tr>
+        </thead>
+          
         <tbody>
           {customerMeters.map((row, index) => {
             return (

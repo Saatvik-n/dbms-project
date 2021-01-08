@@ -20,8 +20,6 @@ const getCustomerID = (url: string):string => {
 }
 
 const AddMeters = () => {
-  console.log('Add meters custID = ');
-
   const [formData, setFormData] = useState(initialObject);
   const [addComplete, setAddComplete] = useState(false);
   const [isError, setIsError] = useState(false);

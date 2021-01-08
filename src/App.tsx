@@ -11,6 +11,8 @@ import RegisterEmployee from './Containers/Register/RegisterEmployee';
 import RegisterCustomer from "./Containers/Register/RegisterCustomer";
 
 import AddMeters from "./Containers/Customer/Meters/AddMeters"
+import Usage from "./Containers/Customer/Meters/Usage"
+import SetMeters from "./Containers/Customer/Meters/SetMeters"
 
 import CustomerHome from "./Containers/Customer/CustomerHome";
 
@@ -27,6 +29,8 @@ export default function App() {
           <Route path="/custreg" exact component={RegisterCustomer} />
           <Route path="/custhome/:custid" exact component={CustomerHome} />
           <Route path="/addmeters/:custid" exact component={AddMeters} />
+          <Route path="/usage/:custid" exact component={Usage} />
+          <Route path="/setmeters/:custid" exact component={SetMeters} />
           <Route path="/" exact component={Homepage} />
         </Switch>
       </Router>
