@@ -22,6 +22,8 @@ import ComplaintsHome from "./Containers/Customer/Complaints/ComplaintsHome"
 import CustomerHome from "./Containers/Customer/CustomerHome";
 
 import EmployeeHome from "./Containers/Employee/EmployeeHome"
+import HandleComplaints from "./Containers/Employee/Complaints/HandleComplaints"
+import ApproveBills from "./Containers/Employee/Bills/ApproveBills"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -45,6 +47,8 @@ export default function App() {
           <Route path="/complaints/:custid" exact component={ComplaintsHome} />
 
           <Route path="/emphome/:empid" exact component={EmployeeHome} />
+          <Route path="/handle/:empid" exact component={HandleComplaints} />
+          <Route path="/approve/:empid" exact component={ApproveBills} />
           <Route path="/" exact component={Homepage} />
         </Switch>
       </Router>

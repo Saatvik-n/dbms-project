@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { getEmployeeName } from '../../DBHandler/EmployeeFunctions';
 
 const getEmployeeID = (url: string): string => {
@@ -11,12 +11,15 @@ const getEmployeeID = (url: string): string => {
 };
 
 const EmployeeHome = () => {
+  const [empID, setEmpID] = useState('')
   const [employeeName, setEmployeeName] = useState('');
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     getEmployeeName(getEmployeeID(location.pathname))
       .then((result) => {
+        setEmpID(getEmployeeID(location.pathname))
         setEmployeeName(result);
       })
       .catch((err) => {
@@ -31,10 +34,12 @@ const EmployeeHome = () => {
       </h2>
       <Row>
         <Col md={6}>
-          <Button block>Handle Complaints</Button>
+          <Button block 
+          onClick={() => history.push(`/handle/${empID}`)} >Handle Complaints</Button>
         </Col>
         <Col md={6}>
-          <Button block>Approve Bills</Button>
+          <Button block
+          onClick={() => history.push(`/approve/${empID}`)} >Approve Bills</Button>
         </Col>
       </Row>
     </Container>
