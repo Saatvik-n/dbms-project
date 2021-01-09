@@ -17,7 +17,11 @@ import SetMeters from "./Containers/Customer/Meters/SetMeters"
 import Bills from "./Containers/Customer/Bills/Bills"
 import BillStatus from "./Containers/Customer/Bills/BillStatus"
 
+import ComplaintsHome from "./Containers/Customer/Complaints/ComplaintsHome"
+
 import CustomerHome from "./Containers/Customer/CustomerHome";
+
+import EmployeeHome from "./Containers/Employee/EmployeeHome"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -38,6 +42,9 @@ export default function App() {
           <Route path="/setmeters/:custid" exact component={SetMeters} />
           <Route path="/bills/:custid" exact component={Bills}  />
           <Route path="/billstatus/:custid" exact component={BillStatus} />
+          <Route path="/complaints/:custid" exact component={ComplaintsHome} />
+
+          <Route path="/emphome/:empid" exact component={EmployeeHome} />
           <Route path="/" exact component={Homepage} />
         </Switch>
       </Router>

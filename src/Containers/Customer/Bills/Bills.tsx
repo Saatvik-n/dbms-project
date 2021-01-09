@@ -51,29 +51,6 @@ const Bills = () => {
     })
   }
 
-  const PayBillComponent: React.FC = () => (
-    <>
-    <Row>
-      <Col md={6} className="mx-auto">
-        <Button block 
-        onClick={() => {setShowPay(true); setShowUsage(true)}}>
-          Pay bill for {CURRENT_MONTH} {CURRENT_YEAR}
-        </Button>
-      </Col>
-    </Row>
-      {showPay ? (
-        <PayBill total={total}
-        onTransChange={changeTransHandler}
-        transID={transactionID}
-        submit={submitBill} />
-      ): null }
-      <h3>
-        {isError ? "There is an issue with inserting, please try again" : null}
-      </h3>
-    </>
-  )
-
-
   if (hasSubmit) {
     return (
       <div>
@@ -107,7 +84,26 @@ const Bills = () => {
         <h3 style={{marginTop:"10px", textAlign:"center"}} >You have already paid the bill for this month</h3>
       )
         :
-        PayBillComponent
+        (<>
+          <Row>
+            <Col md={6} className="mx-auto">
+              <Button block 
+              onClick={() => {setShowPay(true); setShowUsage(true)}}
+              style={{display: (showPay ? "none" : "block")}} >
+                Pay bill for {CURRENT_MONTH} {CURRENT_YEAR}
+              </Button>
+            </Col>
+          </Row>
+            {showPay ? (
+              <PayBill total={total}
+              onTransChange={changeTransHandler}
+              transID={transactionID}
+              submit={submitBill} />
+            ): null }
+            <h3>
+              {isError ? "There is an issue with inserting, please try again" : null}
+            </h3>
+          </>)
       }
     </div>
   )

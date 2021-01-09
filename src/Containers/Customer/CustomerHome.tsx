@@ -41,26 +41,37 @@ const CustomerHome: React.FC = () => {
   }
   return (
     <div>
-      <h2 style={{margin: "20px 0px", textAlign: "center"}} >Welcome {customerName}</h2>
+      <h2 style={{ margin: '20px 0px', textAlign: 'center' }}>
+        Welcome {customerName}
+      </h2>
       <Meters customerID={customerID} />
-      <div style={{margin: "15px 15px", padding: "10px"}} >
-      <h3 >Functions</h3>
-      <h4> &#8226;
-        <Link to={`/addmeters/${customerID}`}> Add meters </Link>
-      </h4>
-      <h4> &#8226;
-        <Link to={`/usage/${customerID}`}> See and Update Usage </Link>
-      </h4>
-      <h4> &#8226;
-        <Link to={`/bills/${customerID}`}> Generate and pay bill </Link>
-      </h4>
-      <h4> &#8226; {" "}
-        <Link to={`/billstatus/${customerID}`}>
-          See approved/pending bills
-        </Link>
-      </h4>
+      <div style={{ margin: '15px 15px', padding: '10px' }}>
+        <h3>Functions</h3>
+        <h4>
+          &#8226;
+          <Link to={`/addmeters/${customerID}`}> Add meters </Link>
+        </h4>
+        <h4>
+          &#8226;
+          <Link to={`/usage/${customerID}`}> See and Update Usage </Link>
+        </h4>
+        <h4>
+          &#8226;
+          <Link to={`/bills/${customerID}`}> Generate and pay bill </Link>
+        </h4>
+        <h4>
+          &#8226; {" "}
+          <Link to={`/billstatus/${customerID}`}>
+            See approved/pending bills
+          </Link>
+        </h4>
+        <h4>
+          &#8226; {" "}
+          <Link to={`/complaints/${customerID}`}>
+            See and add complaints
+          </Link>
+        </h4>
       </div>
-      
     </div>
   );
 };

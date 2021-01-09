@@ -1,5 +1,5 @@
 module.exports = {
-  user: 'saatvik',
-  password: 'passwd',
+  user: 'dbmsproject',
+  password: 'abc',
   connectString: 'localhost/orcl',
 };

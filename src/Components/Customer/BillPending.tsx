@@ -34,7 +34,7 @@ const BillPending = (props:any) => {
                   {props.isApproved ? (
                     <td> {row[4]} </td>
                   ): null}
-                  <td> {row[5].toString().substring(4, 7)} </td>
+                  <td> {row[5]} </td>
                 </tr>
               )
             })

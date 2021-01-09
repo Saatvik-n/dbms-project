@@ -30,8 +30,6 @@ const CustomerLogin: React.FC = () => {
     e.preventDefault();
     loginCustomer(formData.custID.trim(), formData.password.trim())
       .then((result) => {
-        console.log(formData.custID.trim(), formData.password.trim());
-        console.log(`result = ${result}`);
         if (result === true) {
           history.push(`/custhome/${formData.custID}`);
           return;

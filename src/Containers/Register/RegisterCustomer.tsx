@@ -11,6 +11,8 @@ let initialObject: fdata = {
   password: '',
   name: '',
   city: '',
+  street: '',
+  phone: ''
 };
 
 const RegisterCustomer: React.FC = () => {
@@ -43,6 +45,14 @@ const RegisterCustomer: React.FC = () => {
         newFormData.city = event.target.value.trim();
         setFormData(newFormData);
         break;
+      case 'street':
+        newFormData.street = event.target.value.trim();
+        setFormData(newFormData);
+        break;
+      case 'phone':
+        newFormData.phone = event.target.value.trim();
+        setFormData(newFormData);
+        break;
       default:
         break;
     }
@@ -63,7 +73,9 @@ const RegisterCustomer: React.FC = () => {
       formData.custID,
       formData.password,
       formData.name,
-      formData.city
+      formData.city, 
+      formData.street, 
+      formData.phone
     )
       .then((result) => {
         setcustCreated(true);
@@ -118,6 +130,22 @@ const RegisterCustomer: React.FC = () => {
             <Form.Control type="text" placeholder="City"
             value={formData.city}
             onChange={(e) => handleChange(e, 'city')} />
+            </Form.Group>
+            <Form.Group controlId="cust-street">
+            <Form.Label>
+              Street
+            </Form.Label>
+            <Form.Control type="text" placeholder="street"
+            value={formData.street}
+            onChange={(e) => handleChange(e, 'street')} />
+            </Form.Group>
+            <Form.Group controlId="cust-phone">
+            <Form.Label>
+              Phone
+            </Form.Label>
+            <Form.Control type="number" placeholder="10 digit phone number"
+            value={formData.phone}
+            onChange={(e) => handleChange(e, 'phone')} />
             </Form.Group>
             <Button variant="success"
             onClick={(e) => createCustomer(e)} >

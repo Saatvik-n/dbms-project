@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { loginEmployee } from '../../DBHandler/EmployeeFunctions';
+import { useHistory } from 'react-router-dom';
 
 const EmployeeLogin: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ const EmployeeLogin: React.FC = () => {
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [buttonPressed, setButtonPressed] = useState(false);
+
+  const history = useHistory();
 
   const onEmpIDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -27,8 +30,9 @@ const EmployeeLogin: React.FC = () => {
     e.preventDefault();
     loginEmployee(formData.empID.trim(), formData.password.trim())
       .then((result) => {
-        console.log(formData.empID.trim(), formData.password.trim());
-        console.log(`result = ${result}`);
+        if (result === true) {
+          history.push(`/emphome/${formData.empID.trim()}`)
+        }
         setLoggedIn(result);
         setButtonPressed(true);
       })
