@@ -5,6 +5,7 @@ import { uuid } from 'uuidv4';
 
 const DATE = CURRENT_MONTH + CURRENT_YEAR;
 
+// This checks if the customer ID and password is valid
 export async function loginCustomer(
   custID: string,
   password: string
@@ -30,6 +31,7 @@ export async function loginCustomer(
   }
 }
 
+//This creates a new customer
 export async function createNewCustomer(
   custID: string,
   password: string,
@@ -44,7 +46,7 @@ export async function createNewCustomer(
 
     await connection.execute(
       `
-      INSERT INTO CUSTOMER VALUES ( :id, :pwd, :name, :street, :city, :phone)
+      INSERT INTO customer VALUES ( :id, :pwd, :name, :street, :city, :phone)
       `,
       [custID, password, custName, custStreet, custCity, custPhone],
       { autoCommit: true }
@@ -57,7 +59,7 @@ export async function createNewCustomer(
     return false;
   }
 }
-
+// This gets the customer name to display on the welcome screen
 export async function getCustomerName(custID: string): Promise<string> {
   let connection;
   try {
@@ -73,7 +75,7 @@ export async function getCustomerName(custID: string): Promise<string> {
     return 'Error';
   }
 }
-
+// This gets all his meters and rates
 export async function getCustomerMeters(custID: string): Promise<string[]> {
   let connection;
   try {
@@ -104,10 +106,10 @@ export async function addMeter(
   let connection;
   try {
     connection = await oracledb.getConnection(dbConfig);
-
+    console.log(`INSERT INTO METER VALUES(${meterID}, ${meterName}, ${+meterRate.toFixed(2)}, ${custID})`);
     await connection.execute(
       `
-      INSERT INTO METER VALUES(:mid, :mname, :mrate, :cid)
+      INSERT INTO meter VALUES(:mid, :mname, :mrate, :cid)
       `,
       [meterID, meterName, +meterRate.toFixed(2), custID],
       { autoCommit: true }
@@ -142,7 +144,32 @@ export async function getCustomerUsage(custID: string): Promise<string[]> {
     return ['Error'];
   }
 }
+// This is to check if bill is paid for this current month, so that the "set meter usage" button is disabled
+export async function isBillPaid(custID: string):Promise<boolean> {
+  let connection;
+  try {
+    connection = await oracledb.getConnection(dbConfig);
+    const result = await connection.execute(
+      `
+      SELECT GIVESBILL.BILLNO FROM GIVESBILL, METER
+      WHERE METER.CUSTOMER_ID = '${custID}'
+      AND GIVESBILL.METER_ID = METER.METER_ID
+      AND GIVESBILL.USAGE_DATE = '${DATE}'
+      `
+    );
+    connection.close();
+    if (result.rows![0] === null) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    connection?.close();
+    return false;
+  }
+}
 
+// This updates the usage of the meters whenever user goes to set the meter
 export async function updateUsage(
   usageArray: string[],
   meterArray: string[]
@@ -157,7 +184,7 @@ export async function updateUsage(
       console.log(`Array = ${[usageValue, meterID]}`);
       try {
         await connection.execute(
-          `UPDATE GIVESBILL SET UNITS=:us WHERE
+          `UPDATE givesbill SET UNITS=:us WHERE
         METER_ID=:mi AND
         USAGE_DATE=:ud `,
           [usageValue, meterID, DATE],
@@ -188,7 +215,7 @@ async function setZeroUsage(meterArray: string[]): Promise<void> {
       try {
         await connection.execute(
           `
-          INSERT INTO GIVESBILL (USAGE_DATE, UNITS, METER_ID)
+          INSERT INTO givesbill (USAGE_DATE, UNITS, METER_ID)
           VALUES(:ud, :u, :mid)
           `,
           [DATE, 0, meter],
@@ -219,12 +246,24 @@ export async function insertBill(
     connection = await oracledb.getConnection(dbConfig);
     await connection.execute(
       `
-      INSERT INTO BILL (BILLNO, TOTAL, TRANSACTIONID, CUSTOMER_ID, BILL_DATE) VALUES 
+      INSERT INTO bill (BILLNO, TOTAL, TRANSACTIONID, CUSTOMER_ID, BILL_DATE) VALUES 
       (:bn, :tot, :tid, :cid, :bd)
       `,
       [billNumber, total, transID, custID, DATE],
       { autoCommit: true }
     );
+    let meterIDs = await getMeterIDs(custID, connection)
+    //update the selected Meter IDs in the current Month with the generated Bill Number
+    for (let i = 0; i < meterIDs.length; i++) {
+      const meterID = meterIDs[i][0];
+      await connection.execute(
+        `
+        UPDATE givesbill SET BILLNO=:bn WHERE METER_ID=:mid
+        `, 
+        [billNumber, meterID], 
+        {autoCommit: true}
+      )
+    }
     connection.close();
     return true;
   } catch (error) {
@@ -233,7 +272,22 @@ export async function insertBill(
     return false;
   }
 }
+//internal function, to get meter IDs for all meters which have been used this month 
+export async function getMeterIDs(custID:string, connection: any):Promise<string[]> {
+  let result = await connection.execute(
+    `
+    SELECT GIVESBILL.METER_ID FROM GIVESBILL, METER
+    WHERE METER.CUSTOMER_ID = '${custID}'
+    AND GIVESBILL.USAGE_DATE = '${DATE}'
+    `
+  );
 
+  console.log(`getMeter IDs result = ${result.rows}`);
+  return result.rows as string[];
+}
+
+
+// Check if customer has paid for this month, to disable bill payment
 export async function checkHasPaid(custID: string): Promise<boolean> {
   let connection;
   try {
@@ -285,7 +339,7 @@ export async function insertComplaint(
     connection = await oracledb.getConnection(dbConfig);
     await connection.execute(
       `
-      INSERT INTO COMPLAINTS (COMPLAINT_NO, COMPLAINT_DATE, COMPLAINT_DESC, CUSTOMER_ID)
+      INSERT INTO complaints (COMPLAINT_NO, COMPLAINT_DATE, COMPLAINT_DESC, CUSTOMER_ID)
       VALUES (:coid, :cdate, :cdesc, :cid)
       `,
       [complaintID, DATE, desc, custID],

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { addMeter } from '../../../DBHandler/CustomerFunctions';
 import { Button, Row, Col, Form, Container } from 'react-bootstrap';
+import Navigation from "../../../Components/Navbar/Navigation"
+
 
 interface fdata {
   [index: string]: string;
@@ -81,6 +83,9 @@ const AddMeters = () => {
   };
 
   return (
+    <>
+    <Navigation 
+      userLink={`/custhome/${getCustomerID(currentURL.pathname)}`} />
     <Container fluid>
       <h2 style={{ margin: '15px 0px', textAlign: 'center' }}>
         Add new Meters
@@ -135,6 +140,7 @@ const AddMeters = () => {
           : null}
       </h3>
     </Container>
+    </>
   );
 };
 

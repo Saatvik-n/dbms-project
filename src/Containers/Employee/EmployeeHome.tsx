@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
 import { getEmployeeName } from '../../DBHandler/EmployeeFunctions';
+import Navigation from "../../Components/Navbar/Navigation"
 
 const getEmployeeID = (url: string): string => {
   let re = new RegExp('/emphome/', 'g');
@@ -28,6 +29,9 @@ const EmployeeHome = () => {
   }, []);
 
   return (
+    <>
+    <Navigation 
+      userLink={`/emphome/${getEmployeeID(location.pathname)}`} />
     <Container fluid>
       <h2 style={{ margin: '10px 0px', textAlign: 'center' }}>
         Welcome {employeeName}
@@ -43,6 +47,7 @@ const EmployeeHome = () => {
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 export default EmployeeHome;

@@ -3,6 +3,7 @@ import {useLocation} from "react-router-dom"
 import {Container, Row, Col, Button} from "react-bootstrap"
 import EmpComplaints from "../../../Components/Employee/EmpComplaints"
 import {getComplaints, updateComplaints} from "../../../DBHandler/EmployeeFunctions"
+import Navigation from "../../../Components/Navbar/Navigation"
 
 const getEmpID = (url: string):string => {
   let re = new RegExp('/handle/', 'g');
@@ -72,13 +73,17 @@ const HandleComplaints = () => {
 
   if (hasSubmit) {
     return (
-      <h2 style={{textAlign: "center"}} >
-        You have submitted the changes
-      </h2>
+      <>
+        <Navigation userLink={`/emphome/${empID}`} />
+        <h2 style={{ textAlign: 'center' }}>You have submitted the changes</h2>
+      </>
     )
   }
 
   return (
+    <>
+    <Navigation 
+      userLink={`/emphome/${empID}`} />
     <Container>
       <h2 style={{textAlign: "center"}} > Handle complaints </h2>
       <EmpComplaints 
@@ -94,6 +99,7 @@ const HandleComplaints = () => {
         </Col>  
       </Row>
     </Container>
+    </>
   )
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Navigation from './Components/Navbar/Navigation';
 
 import Homepage from './Components/Homepage/Homepage';
 
@@ -32,7 +31,6 @@ export default function App() {
   return (
     <>
       <Router>
-      <Navigation />
         <Switch>
           <Route path="/emplogin" exact component={EmployeeLogin} />
           <Route path="/custlogin" exact component={CustomerLogin} />

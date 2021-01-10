@@ -5,6 +5,7 @@ import {
   updateUsage,
 } from '../../../DBHandler/CustomerFunctions';
 import { Container, Row, Col, Button, Table } from 'react-bootstrap';
+import Navigation from '../../../Components/Navbar/Navigation';
 
 const getCustomerID = (url: string): string => {
   let re = new RegExp('/setmeters/', 'g');
@@ -58,56 +59,61 @@ const SetMeters = () => {
   };
 
   return (
-    <Container fluid>
-      <h3 style={{margin: "15px 0px", textAlign: "center"}} >
-        {showModal
-          ? error
-            ? 'Error in making change'
-            : 'Usage changed successfully'
-          : null}
-      </h3>
-      <Row>
-        <Col md={8} className="mx-auto">
-        <Table striped bordered >
-        <thead>
-          <tr>
-            <th>Meter ID</th>
-            <th>Meter Name</th>
-            <th>Meter Rate</th>
-            <th>Meter Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {meterData.map((row, index) => {
-            return (
-              <tr key={index}>
-                <td>{row[0]}</td>
-                <td>{row[1]}</td>
-                <td>{row[2]}</td>
-                <td>
-                  <input
-                    type="number"
-                    name="usage-input"
-                    id=""
-                    value={usageData[index]}
-                    onChange={(e) => changeHandler(e, index)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={4} className="mx-auto">
-        <Button variant="success" 
-        onClick={(e) => submitUsage(e)}
-        block > Set Values </Button>
-        </Col>
-      </Row>
-    </Container>
+    <>
+        <Navigation 
+      userLink={`/custhome/${getCustomerID(location.pathname)}`} />
+      <Container fluid>
+        <h3 style={{ margin: '15px 0px', textAlign: 'center' }}>
+          {showModal
+            ? error
+              ? 'Error in making change'
+              : 'Usage changed successfully'
+            : null}
+        </h3>
+        <Row>
+          <Col md={8} className="mx-auto">
+            <Table striped bordered>
+              <thead>
+                <tr>
+                  <th>Meter ID</th>
+                  <th>Meter Name</th>
+                  <th>Meter Rate</th>
+                  <th>Meter Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {meterData.map((row, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{row[0]}</td>
+                      <td>{row[1]}</td>
+                      <td>{row[2]}</td>
+                      <td>
+                        <input
+                          type="number"
+                          name="usage-input"
+                          id=""
+                          value={usageData[index]}
+                          onChange={(e) => changeHandler(e, index)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4} className="mx-auto">
+            <Button variant="success" onClick={(e) => submitUsage(e)} block>
+              
+              Set Values
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

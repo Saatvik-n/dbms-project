@@ -2,11 +2,14 @@ import React from "react";
 import {useHistory} from "react-router-dom"
 import {Nav, Navbar} from "react-bootstrap"
 
-const Navigation = () => {
+const Navigation = (props: any) => {
     const history = useHistory();
 
     const goHome = () => {
         history.push('/');
+    }
+    const userHome = () => {
+        history.push(props.userLink)
     }
 
     return (
@@ -14,7 +17,8 @@ const Navigation = () => {
             <Navbar bg="primary" variant="dark" >
                 <Navbar.Brand> Water Supply Board </Navbar.Brand>
                 <Nav>
-                    <Nav.Link onClick={goHome} >Home</Nav.Link>
+                    <Nav.Link onClick={goHome} >Login/Register</Nav.Link>
+                    <Nav.Link onClick={userHome}> Homepage </Nav.Link>
                 </Nav>
             </Navbar>
         </>

@@ -3,6 +3,7 @@ import BillPending from '../../../Components/Customer/BillPending';
 import { getCustomerBills } from '../../../DBHandler/CustomerFunctions';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import Navigation from '../../../Components/Navbar/Navigation';
 
 const getCustomerID = (url: string): string => {
   let re = new RegExp('/billstatus/', 'g');
@@ -60,20 +61,24 @@ const BillStatus = () => {
   }
 
   return (
-    <Container fluid>
-      <Row>
-        <Col md={8} className="mx-auto">
-          <h2>Pending Bills</h2>
-          <BillPending isApproved={false} bills={pendingBills} />
-        </Col>
-      </Row>
-      <Row>
-        <Col md={8} className="mx-auto">
-        <h2>Approved Bills</h2>
-      <BillPending isApproved={true} bills={approvedBills} />
-        </Col>
-      </Row>
-    </Container>
+    <>
+    <Navigation 
+      userLink={`/custhome/${getCustomerID(location.pathname)}`} />
+      <Container fluid>
+        <Row>
+          <Col md={8} className="mx-auto">
+            <h2>Pending Bills</h2>
+            <BillPending isApproved={false} bills={pendingBills} />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={8} className="mx-auto">
+            <h2>Approved Bills</h2>
+            <BillPending isApproved={true} bills={approvedBills} />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-
+import Navigation from "../../Components/Navbar/Navigation"
 import Meters from '../../Components/Customer/Meters';
 
 import { getCustomerName } from '../../DBHandler/CustomerFunctions';
@@ -41,6 +41,8 @@ const CustomerHome: React.FC = () => {
   }
   return (
     <div>
+      <Navigation 
+      userLink={`/custhome/${customerID}`} />
       <h2 style={{ margin: '20px 0px', textAlign: 'center' }}>
         Welcome {customerName}
       </h2>
