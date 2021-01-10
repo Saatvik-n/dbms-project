@@ -84,7 +84,7 @@ export async function getCustomerMeters(custID: string): Promise<string[]> {
     const meters = await connection.execute(
       `
       SELECT METER_ID, METER_NAME, METER_RATE FROM METER
-      WHERE CUSTOMER_ID='${custID}'
+      WHERE METER.CUSTOMER_ID='${custID}'
       `
     );
     //returns meter id, metername, meter rate
@@ -117,6 +117,8 @@ export async function addMeter(
     connection.close();
     return true;
   } catch (error) {
+    console.error(error);
+    
     connection?.close();
 
     return false;
@@ -130,11 +132,11 @@ export async function getCustomerUsage(custID: string): Promise<string[]> {
     connection = await oracledb.getConnection(dbConfig);
     const usage = await connection.execute(
       `
-      select meter.meter_name, g.units, (g.units * meter.meter_rate) as price 
+      select distinct meter.meter_name, g.units, (g.units * meter.meter_rate) as price 
       from givesbill g, customer, meter 
       where g.meter_id = meter.meter_id
       and g.usage_date = '${DATE}'
-      and customer.customer_id = '${custID}'
+      and meter.customer_id = '${custID}'
       `
     );
     connection.close();
@@ -158,7 +160,8 @@ export async function isBillPaid(custID: string):Promise<boolean> {
       `
     );
     connection.close();
-    if (result.rows![0] === null) {
+    // @ts-ignore
+    if (result.rows!.length === 0 || result.rows[0][0] === null ) {
       return false;
     }
     return true;

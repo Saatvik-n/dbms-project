@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createNewEmployee } from '../../DBHandler/EmployeeFunctions';
 import { Row, Col, Form, Container, Button } from 'react-bootstrap';
+import Navigation from "../../Components/Navbar/Navigation"
 
 interface fdata {
   [index: string]: string;
@@ -93,6 +94,8 @@ const RegisterEmployee: React.FC = () => {
   };
 
   return (
+    <>
+    <Navigation />
     <Container fluid>
       <h1>Register a new employee</h1>
       <h4 style={{ color: 'red', margin: '15px 0px' }}>
@@ -154,7 +157,7 @@ const RegisterEmployee: React.FC = () => {
               />
             </Form.Group>
             <Button variant="success" onClick={(e) => createEmployee(e)}>
-              Create New Customer
+              Create New Employee
             </Button>
           </Form>
         </Col>
@@ -170,6 +173,7 @@ const RegisterEmployee: React.FC = () => {
           : null}
       </h4>
     </Container>
+    </>
   );
 };
 

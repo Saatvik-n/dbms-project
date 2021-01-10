@@ -2,6 +2,14 @@ import React from "react"
 import {Table} from "react-bootstrap"
 
 const EmpBills = (props: any) => {
+
+  if (props.bills.length === 0) {
+    return (
+      <div>
+        <h3 style={{margin: "15px 0px", textAlign:"center"}} > No bills pending </h3>
+      </div>
+    )
+  }
   
   return (
     <div>

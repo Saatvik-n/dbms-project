@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createNewCustomer } from '../../DBHandler/CustomerFunctions';
 import { Row, Col, Form, Container, Button } from 'react-bootstrap';
+import Navigation from "../../Components/Navbar/Navigation"
 
 interface fdata {
   [index: string]: string;
@@ -93,6 +94,8 @@ const RegisterCustomer: React.FC = () => {
   };
 
   return (
+    <>
+    <Navigation />
     <Container fluid>
       <h1 style={{textAlign: "center"}} >Register a new customer</h1>
       <h4 style={{color: "red", margin: "15px 0px"}} >{showModal ? 'Every input field should be filled' : null}</h4>
@@ -162,6 +165,7 @@ const RegisterCustomer: React.FC = () => {
           : null}
       </h4>
     </Container>
+    </>
   );
 };
 

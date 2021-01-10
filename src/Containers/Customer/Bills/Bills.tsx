@@ -77,7 +77,6 @@ const Bills = () => {
             <Button
               block
               onClick={() => {
-                setShowPay(true);
                 setShowUsage(true);
               }}
               style={{ marginBottom: '15px' }}

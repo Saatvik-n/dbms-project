@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { loginEmployee } from '../../DBHandler/EmployeeFunctions';
 import { useHistory } from 'react-router-dom';
+import Navigation from "../../Components/Navbar/Navigation"
+
 
 const EmployeeLogin: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -45,6 +47,7 @@ const EmployeeLogin: React.FC = () => {
 
   return (
     <>
+    <Navigation />
     <Container fluid>
       <h1>Employee Login</h1>
       <Row>

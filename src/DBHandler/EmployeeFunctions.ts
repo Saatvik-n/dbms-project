@@ -77,11 +77,11 @@ export async function getComplaints(empID: string): Promise<string[]> {
     connection = await oracledb.getConnection(dbConfig);
     let result = await connection.execute(
       `
-      select complaints.complaint_no, complaints.complaint_date, complaints.complaint_desc, complaints.employee_id
+      select distinct complaints.complaint_no, complaints.complaint_date, complaints.complaint_desc
     from complaints, employee, customer
       where employee.employee_id = '${empID}'
       and employee.emp_city = customer.cust_city
-      and complaints.employee_id IS NULL 
+      and complaints.employee_id IS NULL
       `
     );
     connection.close();
@@ -122,7 +122,7 @@ export async function getBills(empID: string): Promise<string[]> {
   try {
     connection = await oracledb.getConnection(dbConfig);
     let result = await connection.execute(`
-    select bill.billno, bill.total, bill.transactionID, bill.customer_ID, bill.bill_date 
+    select distinct bill.billno, bill.total, bill.transactionID, bill.customer_ID, bill.bill_date 
     from bill, customer, employee
     where employee.employee_id = '${empID}'
     and employee.emp_city = customer.cust_city

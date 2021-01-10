@@ -19,6 +19,7 @@ const MeterUsage = (props: any) => {
   useEffect(() => {
     getCustomerUsage(props.custID)
       .then((result) => {
+        console.log(`Customer ID = ${props.custID}`)
         console.log(`meter usage result = ${result}`);
         setCustUsage(result);
         if (props.generateTotal || props.priceHandler) {

@@ -86,13 +86,15 @@ const ApproveBills = () => {
           fixed={fixed}
           handleCheckChange={handleCheckChange}
         />
-        <Row>
-          <Col md={6} className="mx-auto">
-            <Button block onClick={() => handleSubmit()}>
-              Submit Form
-            </Button>
-          </Col>
-        </Row>
+        {bills.length === 0 ? null : (
+          <Row>
+            <Col md={6} className="mx-auto">
+              <Button block onClick={() => handleSubmit()}>
+                Submit Form
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Container>
     </>
   );

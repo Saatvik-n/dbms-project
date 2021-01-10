@@ -18,7 +18,11 @@ const Navigation = (props: any) => {
                 <Navbar.Brand> Water Supply Board </Navbar.Brand>
                 <Nav>
                     <Nav.Link onClick={goHome} >Login/Register</Nav.Link>
-                    <Nav.Link onClick={userHome}> Homepage </Nav.Link>
+                    {
+                        props.userLink ? (
+                            <Nav.Link onClick={userHome}> Homepage </Nav.Link>
+                        ) : null
+                    }
                 </Nav>
             </Navbar>
         </>

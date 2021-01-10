@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { loginCustomer } from '../../DBHandler/CustomerFunctions';
 import { Button, Row, Col, Form, Container } from 'react-bootstrap';
+import Navigation from '../../Components/Navbar/Navigation';
 
 const CustomerLogin: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -45,39 +46,45 @@ const CustomerLogin: React.FC = () => {
   };
 
   return (
+    <>
+    <Navigation />
       <Container fluid>
-      <h1>Customer Login</h1>
-      <Row>
-        <Col md={6}>
-          <Form>
-            <Form.Group controlId="customer-id">
-              <Form.Label>Customer ID</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="customer ID"
-                value={formData.custID}
-                onChange={oncustIDChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="customer-pwd">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                value={formData.password}
-                onChange={onPasswordChange}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit"
-            onClick={(e) => onSubmit(e)} >
-              Login
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-      {buttonPressed ? (
-        <h2>{loggedIn ? 'Logged In successfully' : 'Login failed'}</h2>
-      ) : null}
+        <h1>Customer Login</h1>
+        <Row>
+          <Col md={6}>
+            <Form>
+              <Form.Group controlId="customer-id">
+                <Form.Label>Customer ID</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="customer ID"
+                  value={formData.custID}
+                  onChange={oncustIDChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="customer-pwd">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={formData.password}
+                  onChange={onPasswordChange}
+                />
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={(e) => onSubmit(e)}
+              >
+                Login
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+        {buttonPressed ? (
+          <h2>{loggedIn ? 'Logged In successfully' : 'Login failed'}</h2>
+        ) : null}
       </Container>
+    </>
   );
 };
 

@@ -2,6 +2,14 @@ import React from "react"
 import {Table} from "react-bootstrap"
 
 const EmpComplaints = (props:any) => {
+
+  if (props.complaints.length === 0) {
+    return (
+      <div>
+        <h3 style={{margin: "15px 0px", textAlign:"center"}} > No complaints pending </h3>
+      </div>
+    )
+  }
   return (
     <div>
       <Table>
